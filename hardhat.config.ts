@@ -1,3 +1,4 @@
+import { ethers } from "hardhat";
 import { TASK_COMPILE_SOLIDITY_GET_SOURCE_PATHS } from "hardhat/builtin-tasks/task-names";
 import { subtask, task } from "hardhat/config";
 
@@ -15,6 +16,7 @@ import "@nomiclabs/hardhat-etherscan";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+
 
 // Filter Reference Contracts
 subtask(TASK_COMPILE_SOLIDITY_GET_SOURCE_PATHS).setAction(
@@ -141,6 +143,10 @@ const config: HardhatUserConfig = {
     },
     verificationNetwork: {
       url: process.env.NETWORK_RPC ?? "",
+    },
+    saigon: {
+      url: process.env.SAIGON_RPC_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [`${process.env.PRIVATE_KEY}`] : [],
     },
   },
   gasReporter: {
