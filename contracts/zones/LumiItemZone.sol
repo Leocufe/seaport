@@ -4,13 +4,13 @@ pragma solidity ^0.8.13;
 import {
 Schema,
 ZoneParameters
-} from "seaport-types/src/lib/ConsiderationStructs.sol";
+} from "../../lib/seaport-sol/lib/seaport-core/lib/seaport-types/src/lib/ConsiderationStructs.sol";
 //import {SeaportInterface} from "../../lib/seaport-sol/lib/seaport-core/lib/seaport-types/src/interfaces/SeaportInterface.sol";
 import {ZoneInterface} from "../../lib/seaport-sol/lib/seaport-core/lib/seaport-types/src/interfaces/ZoneInterface.sol";
-import { ItemType } from "seaport-types/src/lib/ConsiderationEnums.sol";
+import { ItemType } from "../../lib/seaport-sol/lib/seaport-core/lib/seaport-types/src/lib/ConsiderationEnums.sol";
 
 //需要实现 ZoneInterface 接口
-contract LumiItemZone {
+contract LumiItemZone is ZoneInterface {
     address public owner;
     address public platformFeeRecipient;
     address public royaltyRecipient;
@@ -94,6 +94,7 @@ contract LumiItemZone {
      */
     function authorizeOrder(ZoneParameters calldata zoneParameters)
     external
+    override
     returns (bytes4 authorizedOrderMagicValue){
         // 直接返回预定义的魔法值
         return ZoneInterface.authorizeOrder.selector;
@@ -106,6 +107,7 @@ contract LumiItemZone {
      */
     function validateOrder(ZoneParameters calldata zoneParameters)
     external
+    override
     returns (bytes4 valid)
     {
         // 调用辅助函数检查 offer 和 consideration 的类型是否合法
@@ -289,6 +291,7 @@ contract LumiItemZone {
     function getSeaportMetadata()
     external
     pure
+    override
     returns (
         string memory name,
         Schema[] memory schemas // map to Seaport Improvement Proposal IDs
@@ -307,6 +310,7 @@ contract LumiItemZone {
     function supportsInterface(bytes4 interfaceId)
     external
     view
+    override
     returns (bool) {
         // 检查是否支持 `ZoneInterface` 的 interfaceId
         return interfaceId == type(ZoneInterface).interfaceId;
