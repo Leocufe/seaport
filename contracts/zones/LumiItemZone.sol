@@ -101,7 +101,9 @@ contract LumiItemZone is ZoneInterface {
     }
 
     /**
-     * @dev 验证订单的有效性，确保 offer 和 consideration 之间满足类型要求。
+     * @dev 验证订单的有效性，确保：1.订单offer与consideration满足要求：只有一边可以有且只能有1项ERC1155物品；另一边只能有native和ERC20中的一种。
+     *2.设置的版税和平台税费大于要求的费用。
+     *3.如果是offer类型订单，调用者必须是指定地址。
      * @param zoneParameters 包含 offer 和 consideration 等详细信息的 ZoneParameters 结构体
      * @return valid 表示订单是否有效
      */
@@ -110,7 +112,7 @@ contract LumiItemZone is ZoneInterface {
     override
     returns (bytes4 valid)
     {
-        // 调用辅助函数检查 offer 和 consideration 的类型是否合法
+        // 检查 offer 和 consideration 的类型是否符合要求
         OrderCheckResult memory orderCheckResult = _checkOfferAndConsiderationTypes(zoneParameters);
 
         // 如果订单类型和物品验证不通过，则返回无效
