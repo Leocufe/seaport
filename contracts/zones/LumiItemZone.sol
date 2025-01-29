@@ -267,9 +267,9 @@ contract LumiItemZone is ZoneInterface {
                 }
             }
 
-            // 计算平台费和版税应该是多少
-            uint256 expectedPlatformFee = (totalAmount * platformFeePercentage) / (10000 + platformFeePercentage + royaltyFeePercentage);
-            uint256 expectedRoyaltyFee = (totalAmount * royaltyFeePercentage) / (10000 + platformFeePercentage + royaltyFeePercentage);
+            // 计算平台费和版税应该是多少，不考虑剃税，避免出现小数问题
+            uint256 expectedPlatformFee = (totalAmount * platformFeePercentage) / (10000 );
+            uint256 expectedRoyaltyFee = (totalAmount * royaltyFeePercentage) / (10000 );
 
             // 检查是否符合预期的费用分配
             bool platformFeeValid = (platformFeeAmount >= expectedPlatformFee);
